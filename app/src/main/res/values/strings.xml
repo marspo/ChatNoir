@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">ChatNoir</string>
+    <string name="register">CREATE NEW ACCOUNT</string>
+    <string name="display_name">Display name</string>
+    <string name="enter_password">Enter password</string>
+    <string name="email">Email</string>
+    <string name="create_user">Create user</string>
+    <string name="log_out">Log Out</string>
+    <string name="all_users">All users</string>
+    <string name="account_settings">Account settings</string>
+    <string name="yourpass">Your Password</string>
+    <string name="your_email">Your Email</string>
+    <string name="login">Login</string>
+    <string name="already_have_account">LOGIN</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_status">CHANGE STATUS</string>
+    <string name="change_image">CHANGE IMAGE</string>
+    <string name="status_default">Hi there, this is me</string>
+    <string name="title_activity_users">UsersActivity</string>
+    <string name="decline_friend_request">SEND PUBLIC TEXT</string>
+    <string name="send_friend_request">SEND FRIEND REQUEST</string>
+    <string name="no_data_available">No records found</string>
+</resources>

@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.martinjonovski.chatnoir.ChatsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chats_list">
+
+
+    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/empty_view_chats"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:text="@string/no_data_available" />
+
+    <ImageView
+        android:id="@+id/info_img_chats"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:visibility="invisible"
+        app:srcCompat="@android:drawable/ic_menu_info_details" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutChats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_bar_bg"
+
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:layout_marginStart="10dp"
+            android:id="@+id/chat_text_fc"
+            android:layout_width="142dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone"
+            android:layout_height="50dp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_weight="0.95" />
+
+        <ImageButton
+            android:id="@+id/chat_send_btn_fc"
+            android:layout_width="35dp"
+            android:layout_height="34dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:scaleType="centerCrop"
+            android:src="@drawable/lupa" />
+
+    </LinearLayout>
+</RelativeLayout>

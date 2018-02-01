@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/req_single_image"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/maxresdefault"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp" />
+
+    <TextView
+        android:id="@+id/req_single_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display Name"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:layout_marginStart="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/req_single_image"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/req_single_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User default status"
+        android:layout_above="@+id/req_online_img"
+        android:layout_alignStart="@+id/req_single_name" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/req_online_img"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/online_bg"
+        android:layout_alignBottom="@+id/req_single_image"
+        android:layout_alignEnd="@+id/req_single_image" />
+
+
+
+    <ImageButton
+        android:id="@+id/req_accept"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/check"
+        android:layout_marginEnd="12dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/req_decline" />
+
+    <ImageButton
+        android:id="@+id/req_decline"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/deny"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

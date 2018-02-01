@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "666056209093",
+    "firebase_url": "https://chatnoir-392a4.firebaseio.com",
+    "project_id": "chatnoir-392a4",
+    "storage_bucket": "chatnoir-392a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666056209093:android:c889cb7e2c62ecf8",
+        "android_client_info": {
+          "package_name": "com.example.martinjonovski.chatnoir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "666056209093-eea1oqj29vopa8rb8nhqc4di03cfcb6n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.martinjonovski.chatnoir",
+            "certificate_hash": "a85081744c0f92e8c9e33157a8142378cf74c861"
+          }
+        },
+        {
+          "client_id": "666056209093-428nedjfc878qav0m1mf275qro88mflp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6uDIcTLvtFKNBqP_s35_KrvGzCha0Hyw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "666056209093-428nedjfc878qav0m1mf275qro88mflp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
