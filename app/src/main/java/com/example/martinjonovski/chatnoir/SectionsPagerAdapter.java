@@ -47,23 +47,19 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     }
 //
 //
-//    public CharSequence getPageTitle(int position) {
-//        switch (position) {
-//            case 0:
-//                return "REQUESTS";
-//            case 1:
-//                return "CHATS";
-//            case 2:
-//                return "FRIENDS";
-//            default:
-//                return null;
-//
-//        }
-//    }
-
-    @Override
     public CharSequence getPageTitle(int position) {
-        return "";
+        switch (position) {
+            case 0:
+                return "REQUESTS";
+            case 1:
+                return "CHATS";
+            case 2:
+                return "FRIENDS";
+            default:
+                return null;
+
+        }
     }
+
 
 }

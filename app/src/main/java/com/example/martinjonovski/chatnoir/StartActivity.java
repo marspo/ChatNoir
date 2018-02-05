@@ -1,103 +1,82 @@
 package com.example.martinjonovski.chatnoir;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.ImageViewTarget;
+
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.BindViews;
+
+import android.support.annotation.ColorRes;
 
 public class StartActivity extends AppCompatActivity {
 
-    private Button mRegButton, mLoginButton;
-    private EditText email, pass;
-    private Button mButtonLogin;
-    private FirebaseAuth mAuth;
-
-    private ProgressDialog loginProgress;
+    @BindViews(value = {R.id.logo, R.id.first, R.id.second, R.id.last})
+    protected List<ImageView> sharedElements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        mAuth = FirebaseAuth.getInstance();
-        loginProgress = new ProgressDialog(this);
+        ButterKnife.bind(this);
+        final AnimatedViewPager pager = ButterKnife.findById(this, R.id.pager);
+        final ImageView background = ButterKnife.findById(this, R.id.scrolling_background);
+        int[] screenSize = screenSize();
 
-        email = (EditText) findViewById(R.id.loginEditText);
-        pass = (EditText) findViewById(R.id.passLoginText);
-//        mLoginButton.setColoredModeColors(Color.WHITE,
-//                fetchColor(R.color.colorPrim));
+        for (ImageView element : sharedElements) {
+            @ColorRes int color = element.getId() != R.id.logo ? R.color.white_transparent : R.color.color_logo_log_in;
+            DrawableCompat.setTint(element.getDrawable(), ContextCompat.getColor(this, color));
+        }
 
-        mRegButton = (Button) findViewById(R.id.start_reg_btn);
-        mRegButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent registerIntent = new Intent(StartActivity.this, RegisterActivity.class);
-                startActivity(registerIntent);
-                finish();
-            }
-        });
-        mLoginButton = (Button) findViewById(R.id.start_login_btn);
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loginProgress.setTitle("Logging In");
-                loginProgress.setMessage("Please wait while we check your creentials.");
-                loginProgress.setCanceledOnTouchOutside(false);
-                loginProgress.show();
-                String mail = email.getText().toString();
-                String passw = pass.getText().toString();
-
-                login(mail.trim(), passw);
-            }
-        });
-    }
-
-    private void login(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        //load a very big image and resize it, so it fits our needs
+        Glide.with(this)
+                .load(R.drawable.busy)
+                .asBitmap()
+                .override(screenSize[0] * 2, screenSize[1])
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(new ImageViewTarget<Bitmap>(background) {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-
-
-                            loginProgress.dismiss();
-                            Toast.makeText(StartActivity.this, "Error occured during sign in.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            String tokenId = FirebaseInstanceId.getInstance().getToken();
-                            String currentUserId = mAuth.getCurrentUser().getUid();
-                            FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId).child("tokenid").setValue(tokenId).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-
-                                }
-                            });
-                            loginProgress.dismiss();
-                            Intent mainIntent = new Intent(StartActivity.this, MainActivity.class);
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(mainIntent);
-                            finish();
-                        }
-
-                        // ...
+                    protected void setResource(Bitmap resource) {
+                        background.setImageBitmap(resource);
+                        background.post(() -> {
+                            //we need to scroll to the very left edge of the image
+                            //fire the scale animation
+                            background.scrollTo(-background.getWidth() / 2, 0);
+                            ObjectAnimator xAnimator = ObjectAnimator.ofFloat(background, View.SCALE_X, 4f, background.getScaleX());
+                            ObjectAnimator yAnimator = ObjectAnimator.ofFloat(background, View.SCALE_Y, 4f, background.getScaleY());
+                            AnimatorSet set = new AnimatorSet();
+                            set.playTogether(xAnimator, yAnimator);
+                            set.setDuration(getResources().getInteger(R.integer.duration));
+                            set.start();
+                        });
+                        pager.post(() -> {
+                            AuthAdapter adapter = new AuthAdapter(getSupportFragmentManager(), pager, background, sharedElements);
+                            pager.setAdapter(adapter);
+                        });
                     }
                 });
+    }
+
+    private int[] screenSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return new int[]{size.x, size.y};
+
     }
 }
