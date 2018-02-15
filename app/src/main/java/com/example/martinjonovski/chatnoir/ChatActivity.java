@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -100,8 +103,9 @@ public class ChatActivity extends AppCompatActivity {
 
         mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mToolbar = (Toolbar) findViewById(R.id.chat_toolbar);
-
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimarydva));
         setSupportActionBar(mToolbar);
+
         chatNoirDbHandler = new ChatNoirDbHandler(this, null, null, 1);
         Contact userContact = chatNoirDbHandler.getContact(mCurrentUserId + userId);
         if (userContact != null) {
@@ -141,7 +145,6 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-
         if (thumbImage != null && !thumbImage.isEmpty()) {
             Picasso.with(ChatActivity.this).load(thumbImage).placeholder(R.drawable.photo).into(image);
         }
@@ -158,7 +161,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (dataSnapshot != null) {
                     String online = "false";
                     try {
-                        online = dataSnapshot.child("online").getValue().toString();
+                        online = dataSnapshot.child("online").getValue(String.class);
                     } catch (Exception e) {
                         online = "false";
                     }
@@ -492,5 +495,24 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+    }
 
 }

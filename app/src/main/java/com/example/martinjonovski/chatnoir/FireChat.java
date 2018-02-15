@@ -40,7 +40,8 @@ public class FireChat extends Application {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null) {
-                        mDatabaseReference.child("online").onDisconnect().setValue(ServerValue.TIMESTAMP);
+                        Long time = System.currentTimeMillis();
+                        mDatabaseReference.child("online").onDisconnect().setValue(time.toString());
                         // mDatabaseReference.child("online").setValue(true);
                     }
                 }

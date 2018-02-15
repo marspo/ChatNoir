@@ -12,6 +12,11 @@
     <dimen name="input_width">220dp</dimen>
     <dimen name="label_size">20sp</dimen>
     <dimen name="folded_label_padding">22sp</dimen>
-    <dimen name="logo_size">64dp</dimen>
+    <dimen name="logo_size">80dp</dimen>
     <dimen name="guideline_margin">56dp</dimen>
+    <dimen name="activity_vertical_margin">5dp</dimen>
+    <dimen name="activity_horizontal_margin">5dp</dimen>
+    <dimen name="nav_header_vertical_spacing">5dp</dimen>
+    <dimen name="nav_header_height">250dp</dimen>
+    <dimen name="item_list_horizontal_margin">10dp</dimen>
 </resources>

@@ -1,15 +1,30 @@
 package com.example.martinjonovski.chatnoir;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,8 +55,7 @@ public class UsersActivity extends AppCompatActivity {
     private UsersAdapter mAdapter;
     private int pos;
 
-    private EditText searchText;
-    private ImageButton searchButton;
+    private MenuItem mSearchItem;
     private List<Users> userList;
 
     @Override
@@ -49,11 +63,9 @@ public class UsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
         mCurrentUserId = getIntent().getStringExtra("user_id");
-        mToolbar = (Toolbar) findViewById(R.id.users_appbar);
+        mToolbar = (Toolbar) findViewById(R.id.users_page_appbar);
         mUsersList = (RecyclerView) findViewById(R.id.users_list);
         userList = new ArrayList<>();
-        searchText = (EditText) findViewById(R.id.search_bar_users);
-        searchButton = (ImageButton) findViewById(R.id.chat_send_btn_ua);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("All Users");
@@ -69,7 +81,11 @@ public class UsersActivity extends AppCompatActivity {
 
                         for (DataSnapshot dataSnapshot1 : list) {
                             if (!dataSnapshot1.getKey().equals(mCurrentUserId)) {
-                                Users userToAdd = dataSnapshot1.getValue(Users.class);
+                                Users userToAdd = new Users();
+                                userToAdd.setName(dataSnapshot1.child("name").getValue(String.class));
+                                userToAdd.setImage_thumb(dataSnapshot1.child("image_thumb").getValue(String.class));
+                                userToAdd.setStatus("Status");
+
                                 if (userToAdd.getName() != null) {
                                     userToAdd.setUid(dataSnapshot1.getKey().toString());
                                     userList.add(userToAdd);
@@ -91,21 +107,21 @@ public class UsersActivity extends AppCompatActivity {
         mUsersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         mUsersList.setAdapter(mAdapter);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (searchText.getText().toString() != null && !searchText.getText().toString().isEmpty()) {
-                    String userToSearch = searchText.getText().toString();
-                    updateUsersList(userToSearch);
-                } else {
-                    mAdapter = new UsersAdapter(userList, getApplicationContext(), true);
-                    mUsersList.setAdapter(mAdapter);
-                }
-
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            }
-        });
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (searchText.getText().toString() != null && !searchText.getText().toString().isEmpty()) {
+//                    String userToSearch = searchText.getText().toString();
+//                    updateUsersList(userToSearch);
+//                } else {
+//                    mAdapter = new UsersAdapter(userList, getApplicationContext(), true);
+//                    mUsersList.setAdapter(mAdapter);
+//                }
+//
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+//            }
+//        });
 
     }
 
@@ -170,8 +186,112 @@ public class UsersActivity extends AppCompatActivity {
         public void setThumb(String thumb, Context context) {
             CircleImageView circleImage = (CircleImageView) mView.findViewById(R.id.user_single_image);
             Picasso.with(context).load(thumb).placeholder(R.drawable.photo).into(circleImage);
-
         }
 
     }
+
+    public void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
+
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+
+        if (show) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int width = mToolbar.getWidth() -
+                        (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) -
+                        ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
+                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(mToolbar,
+                        isRtl(getResources()) ? mToolbar.getWidth() - width : width, mToolbar.getHeight() / 2, 0.0f, (float) width);
+                createCircularReveal.setDuration(250);
+                createCircularReveal.start();
+            } else {
+                TranslateAnimation translateAnimation = new TranslateAnimation(0.0f, 0.0f, (float) (-mToolbar.getHeight()), 0.0f);
+                translateAnimation.setDuration(220);
+                mToolbar.clearAnimation();
+                mToolbar.startAnimation(translateAnimation);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int width = mToolbar.getWidth() -
+                        (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) -
+                        ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
+                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(mToolbar,
+                        isRtl(getResources()) ? mToolbar.getWidth() - width : width, mToolbar.getHeight() / 2, (float) width, 0.0f);
+                createCircularReveal.setDuration(250);
+                createCircularReveal.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ColorDrawable buttonColor = (ColorDrawable) mToolbar.getBackground();
+                        mToolbar.setBackgroundColor(buttonColor.getColor());
+                        super.onAnimationEnd(animation);
+                    }
+                });
+                createCircularReveal.start();
+            } else {
+                AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+                Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, (float) (-mToolbar.getHeight()));
+                AnimationSet animationSet = new AnimationSet(true);
+                animationSet.addAnimation(alphaAnimation);
+                animationSet.addAnimation(translateAnimation);
+                animationSet.setDuration(220);
+                animationSet.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        ColorDrawable buttonColor = (ColorDrawable) mToolbar.getBackground();
+                        mToolbar.setBackgroundColor(getThemeColor(UsersActivity.this, buttonColor.getColor()));
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                mToolbar.startAnimation(animationSet);
+            }
+        }
+    }
+
+    private boolean isRtl(Resources resources) {
+        return resources.getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+    }
+
+    private static int getThemeColor(Context context, int id) {
+        Resources.Theme theme = context.getTheme();
+        TypedArray a = theme.obtainStyledAttributes(new int[]{id});
+        int result = a.getColor(0, 0);
+        a.recycle();
+        return result;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        mSearchItem = menu.findItem(R.id.m_search);
+
+        MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Called when SearchView is collapsing
+                if (mSearchItem.isActionViewExpanded()) {
+                    animateSearchToolbar(1, false, false);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Called when SearchView is expanding
+                animateSearchToolbar(1, true, true);
+                return true;
+            }
+        });
+
+        return true;
+    }
+
 }

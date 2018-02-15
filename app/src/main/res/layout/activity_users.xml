@@ -6,53 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.martinjonovski.chatnoir.UsersActivity">
 
-    <include layout="@layout/appbar_layout" android:id="@+id/users_appbar"/>
+    <include
+        android:id="@+id/users_page_appbar"
+        layout="@layout/toolbar_custom" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/users_appbar"
+        android:layout_below="@+id/users_page_appbar"
         android:id="@+id/users_list">
 
     </android.support.v7.widget.RecyclerView>
 
 
-    <LinearLayout
-        android:id="@+id/linearLayoutUsersActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/search_bar_bg"
-
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <EditText
-            android:id="@+id/search_bar_users"
-            android:layout_width="142dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:textStyle="bold"
-            android:textColor="#ffffff"
-            android:layout_weight="0.95" />
-
-        <ImageButton
-            android:id="@+id/chat_send_btn_ua"
-            android:layout_width="41dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:scaleType="centerCrop"
-            android:background="@null"
-            android:src="@drawable/lupa" />
-
-    </LinearLayout>
 </RelativeLayout>

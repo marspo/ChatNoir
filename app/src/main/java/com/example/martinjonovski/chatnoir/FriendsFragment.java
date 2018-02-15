@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,6 +44,7 @@ public class FriendsFragment extends Fragment {
     private String currentUserId;
 
     private View mainView;
+    private ImageView imageView;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -56,7 +58,7 @@ public class FriendsFragment extends Fragment {
         mainView = inflater.inflate(R.layout.fragment_friends, container, false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mainView.getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
+        imageView = (ImageView) mainView.findViewById(R.id.no_recevnt_fri);
         mFriendsList = (RecyclerView) mainView.findViewById(R.id.friends_list);
         mFriendsList.setLayoutManager(layoutManager);
         mUsersReference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -94,7 +96,7 @@ public class FriendsFragment extends Fragment {
                         final String img_thumb = dataSnapshot.child("image_thumb").getValue().toString();
                         String online = "false";
                         try {
-                            online = dataSnapshot.child("online").getValue().toString();
+                            online = dataSnapshot.child("online").getValue(String.class);
                         } catch (Exception ex) {
                             online = "false";
                         }
@@ -102,6 +104,8 @@ public class FriendsFragment extends Fragment {
 
                         viewHolder.setName(username);
                         viewHolder.setImgThumb(img_thumb, getContext());
+                        imageView.setVisibility(View.INVISIBLE);
+                        mFriendsList.setVisibility(View.VISIBLE);
 
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -123,6 +127,13 @@ public class FriendsFragment extends Fragment {
             }
         };
         mFriendsList.setAdapter(firebaseRecyclerAdapter);
+        if (firebaseRecyclerAdapter.getItemCount() == 0) {
+            imageView.setVisibility(View.VISIBLE);
+            mFriendsList.setVisibility(View.INVISIBLE);
+        } else {
+            imageView.setVisibility(View.INVISIBLE);
+            mFriendsList.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -148,7 +159,7 @@ public class FriendsFragment extends Fragment {
 
         public void setImgThumb(String imgThumb, Context context) {
             CircleImageView circleImage = (CircleImageView) mView.findViewById(R.id.user_single_image);
-            //Picasso.with(context).load(imgThumb).placeholder(R.drawable.photo).into(circleImage);
+            Picasso.with(context).load(imgThumb).placeholder(R.drawable.maxresdefault).into(circleImage);
         }
 
         public void setOnlineStatus(boolean bool) {

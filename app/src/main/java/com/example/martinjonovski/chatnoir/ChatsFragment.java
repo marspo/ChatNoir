@@ -3,6 +3,7 @@ package com.example.martinjonovski.chatnoir;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,7 +53,7 @@ public class ChatsFragment extends Fragment {
     private List<String> userIds;
     private Map<String, Users> usersList;
     //    private TextView noUsersText;
-//    private ImageView infoIcon;
+    private ImageView infoIcon;
     private View mainView;
 
     public ChatsFragment() {
@@ -72,7 +73,7 @@ public class ChatsFragment extends Fragment {
 //        noUsersText = (TextView) mainView.findViewById(R.id.empty_view_chats);
 //        infoIcon = (ImageView) mainView.findViewById(R.id.info_img_chats);
         mFriendsList.setLayoutManager(layoutManager);
-
+        infoIcon = (ImageView) mainView.findViewById(R.id.no_recevnt_chat);
         mUsersReference = FirebaseDatabase.getInstance().getReference().child("Users");
 
         //  mUsersReference.keepSynced(true);
@@ -164,6 +165,14 @@ public class ChatsFragment extends Fragment {
                 mFriendsList.setAdapter(mAdapter);
                 mDatabseReference.keepSynced(true);
                 mFriendsList.setHasFixedSize(true);
+
+                if (mAdapter.getItemCount() == 0) {
+                    mFriendsList.setVisibility(View.INVISIBLE);
+                    infoIcon.setVisibility(View.VISIBLE);
+                } else {
+                    mFriendsList.setVisibility(View.VISIBLE);
+                    infoIcon.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override

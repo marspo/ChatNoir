@@ -34,7 +34,7 @@ public class RSAUtil {
         this.cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding");
     }
 
-    //
+
     public byte[] encrypt(PublicKey pubKey2, String input) throws Exception {
         cipher.init(Cipher.ENCRYPT_MODE, pubKey2, new SecureRandom());
         byte[] cipherText = cipher.doFinal(input.getBytes());
@@ -96,6 +96,7 @@ public class RSAUtil {
 
             byte[] signature = sig.sign();
             return Base64.encodeToString(signature, Base64.DEFAULT);
+
 
         } catch (Exception ex) {
             ex.printStackTrace();

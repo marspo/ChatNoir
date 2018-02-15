@@ -43,6 +43,7 @@ public class RequestsFragment extends Fragment {
     private TextView noUsersText;
     private ImageView infoIcon;
     private View mainView;
+    private ImageView imageView;
 
     public RequestsFragment() {
         // Required empty public constructor
@@ -59,7 +60,7 @@ public class RequestsFragment extends Fragment {
 //        noUsersText = (TextView) mainView.findViewById(R.id.empty_view);
 //        infoIcon = (ImageView) mainView.findViewById(R.id.imageView2);
         mRequestsList = (RecyclerView) mainView.findViewById(R.id.requests_list);
-
+        imageView = (ImageView) mainView.findViewById(R.id.no_recevnt_req);
         mRequestsList.setLayoutManager(layoutManager);
         mUsersReference = FirebaseDatabase.getInstance().getReference().child("Users");
         //  mUsersReference.keepSynced(true);
@@ -95,7 +96,7 @@ public class RequestsFragment extends Fragment {
                         final String img_thumb = dataSnapshot.child("image_thumb").getValue(String.class);
                         String online = "false";
                         try {
-                            online = dataSnapshot.child("online").getValue().toString();
+                            online = dataSnapshot.child("online").getValue(String.class);
                         } catch (Exception ex) {
                             online = "false";
                         }
@@ -124,6 +125,14 @@ public class RequestsFragment extends Fragment {
             }
         };
         mRequestsList.setAdapter(firebaseRecyclerAdapter);
+        if (firebaseRecyclerAdapter.getItemCount() == 0) {
+
+            imageView.setVisibility(View.VISIBLE);
+            mRequestsList.setVisibility(View.INVISIBLE);
+        } else {
+            imageView.setVisibility(View.INVISIBLE);
+            mRequestsList.setVisibility(View.VISIBLE);
+        }
 //        if (firebaseRecyclerAdapter.getItemCount() == 0) {
 //            mRequestsList.setVisibility(View.INVISIBLE);
 //            infoIcon.setVisibility(View.VISIBLE);

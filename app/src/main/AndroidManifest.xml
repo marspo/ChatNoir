@@ -32,7 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity"  android:theme="@style/AppTheme" />
+        <activity
+            android:name=".StartActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".AccountSettingsActivity" />
         <activity
             android:name=".UsersActivity"
@@ -57,7 +59,8 @@
         <activity
             android:name=".ChatActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".PublicChatActivity"></activity>
+        <activity android:name=".PublicChatActivity" />
+        <activity android:name=".ImageActivity"></activity>
     </application>
 
 </manifest>

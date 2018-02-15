@@ -9,7 +9,9 @@
 
     <include
         android:id="@+id/chat_toolbarpc"
-        layout="@layout/appbar_layout" />
+        layout="@layout/appbar_layout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 
     <LinearLayout
@@ -54,12 +56,20 @@
         android:layout_above="@id/linearLayoutpc"
         android:layout_below="@id/chat_toolbarpc">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/chat_list_recyclerpc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"></android.support.v7.widget.RecyclerView>
-
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_below="@+id/chat_toolbarpc"
+        android:layout_alignParentStart="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chat_list_recyclerpc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>

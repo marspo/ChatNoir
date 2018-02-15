@@ -112,7 +112,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 //                holder.message.setText(c.getMessage());
 //                holder.imageView.setVisibility(View.INVISIBLE);
             } else {
-                holder.setImageVisibility();
+                holder.setImageVisibility(c.getMessage());
                 // Picasso.with(context).load(c.getMessage()).placeholder(R.drawable.photo).into(holder.imageView);
                 Picasso.with(context).load(c.getMessage()).into(holder.imageView);
             }
@@ -130,6 +130,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public CircleImageView circleImageView;
         public ImageView imageView;
         private boolean currentUser = false;
+        private String imgUrl;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
@@ -159,10 +160,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         }
 
-        public void setImageVisibility() {
+        public void setImageVisibility(String s) {
             message.setVisibility(View.INVISIBLE);
             messageMe.setVisibility(View.INVISIBLE);
             imageView.setVisibility(View.VISIBLE);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 }

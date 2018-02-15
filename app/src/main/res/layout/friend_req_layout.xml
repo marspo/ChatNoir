@@ -50,7 +50,7 @@
         android:id="@+id/req_accept"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/check"
+        android:background="@drawable/friends_unselected"
         android:layout_marginEnd="12dp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/req_decline" />
@@ -60,7 +60,7 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_marginEnd="13dp"
-        android:background="@drawable/deny"
+        android:src="@drawable/chatting_unselected"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

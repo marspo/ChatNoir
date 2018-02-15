@@ -159,7 +159,7 @@ public class PublicChatActivity extends AppCompatActivity {
                 if (dataSnapshot != null) {
                     String online = "false";
                     try {
-                        online = dataSnapshot.child("online").getValue().toString();
+                        online = dataSnapshot.child("online").getValue(String.class);
                     } catch (Exception e) {
                         online = "false";
                     }

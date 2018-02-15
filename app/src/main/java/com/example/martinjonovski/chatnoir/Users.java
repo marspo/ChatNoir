@@ -11,6 +11,8 @@ public class Users {
     public String name;
     public String status;
     private String uid;
+    private String online;
+
     private boolean myMessage = false;
 
     public Users() {
@@ -21,6 +23,14 @@ public class Users {
         this.image = image;
         this.status = status;
         this.image_thumb = image_thumb;
+    }
+
+    public String getOnline() {
+        return online;
+    }
+
+    public void setOnline(String online) {
+        this.online = online;
     }
 
     public String getName() {

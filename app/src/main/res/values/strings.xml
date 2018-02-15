@@ -30,4 +30,7 @@
     <string name="email_hint">Email</string>
     <string name="confirm_hint">Confirm Password</string>
     <string name="name_hint">Display Name</string>
+    <string name="open">Open</string>
+    <string name="close">close</string>
+    <string name="search_title">Search people...</string>
 </resources>
